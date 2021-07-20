@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class StoryDialogue : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _characterNameText;
     [SerializeField] private TextMeshProUGUI _dialogueText;
 
     // Start is called before the first frame update
@@ -20,21 +19,8 @@ public class StoryDialogue : MonoBehaviour
         
     }
 
-    public void AssignDialogue(string characterName, string dialogueText, bool alignment)
+    public void AssignDialogue(string dialogueText)
     {
-        _characterNameText.text = characterName;
         _dialogueText.text = dialogueText;
-
-        if (alignment)
-        {
-            _characterNameText.alignment = TextAlignmentOptions.Left;
-            _dialogueText.alignment = TextAlignmentOptions.Left;
-        }
-        else
-        {
-            _characterNameText.alignment = TextAlignmentOptions.Right;
-            _dialogueText.alignment = TextAlignmentOptions.Right;
-        }
-
     }
 }

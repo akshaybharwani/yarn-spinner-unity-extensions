@@ -26,13 +26,13 @@ public class StoryHandler : MonoBehaviour
         {
             var characterNameEndIndex = storyText.IndexOf(":", StringComparison.Ordinal);
             
-            var characterName = storyText.Substring(1,  characterNameEndIndex - 1);
+            //var characterName = storyText.Substring(1,  characterNameEndIndex - 1);
 
             var dialogueText = storyText.Substring(characterNameEndIndex + 2);
 
             var storyDialogueGameObject = Instantiate(_storyDialoguePrefab, _storyTextParent);
             
-            storyDialogueGameObject.AssignDialogue(characterName, dialogueText, false);
+            storyDialogueGameObject.AssignDialogue(dialogueText);
         }
     }
 }
