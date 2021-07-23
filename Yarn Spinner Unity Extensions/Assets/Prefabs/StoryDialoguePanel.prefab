@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7551962474401500339}
   - component: {fileID: 5954842591774099657}
   m_Layer: 5
-  m_Name: StoryDialoguePanelDefault
+  m_Name: StoryDialoguePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueText: {fileID: 4982607162238161324}
+  _dialogueBackgroundImage: {fileID: 5146760895277748533}
 --- !u!114 &5715555214573207763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +137,7 @@ GameObject:
   - component: {fileID: 5146760895277748533}
   - component: {fileID: 4980996343688662169}
   m_Layer: 5
-  m_Name: Background
+  m_Name: ButtonBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,9 +285,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Akshay
-
-    Bharwa'
+  m_text: Dialogue Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
