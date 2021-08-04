@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class OptionDialogue : StoryDialogue
 {
     public Button dialogueButton;
-    
-    public void ChangeOptionToDialogue()
+
+    public void ChangeOptionToDialogue(string dialogueText, Color32 color32)
     {
-        _dialogueBackgroundImage.DOColor(_thisCharacterUIData.dialogueBackgroundColor, 1f);
+        _dialogueText.text = dialogueText;
+        _dialogueBackgroundImage.DOColor(color32, 1.5f);
     }
 }

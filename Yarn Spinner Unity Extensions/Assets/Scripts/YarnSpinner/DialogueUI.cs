@@ -475,6 +475,15 @@ namespace Yarn.Unity {
                 return;
             }
             
+            storyHandler.DestroyRemainingOptionDialoguesOnSelection(optionID);
+
+            StartCoroutine(ShowNextNodeAfterOptionSelection(2, optionID));
+        }
+        
+        private IEnumerator ShowNextNodeAfterOptionSelection(float duration, int optionID) 
+        {
+            yield return new WaitForSeconds(duration);
+            
             waitingForOptionSelection = false;
             currentOptionSelectionHandler?.Invoke(optionID);
         }

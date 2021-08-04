@@ -70,6 +70,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionDialogueButtonPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3779106733074260267, guid: 0c1df53ed1c234041856768875c9fd02, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779106733074260267, guid: 0c1df53ed1c234041856768875c9fd02, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4150895019568988810, guid: 0c1df53ed1c234041856768875c9fd02, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,29 +17,27 @@ namespace YarnSpinnerUnityExtensions
     }    
     public class StoryHandler : MonoBehaviour
     {
+        [Header("STORY UI DATA")]
         [SerializeField] private StoryUIDataScriptableObject _storyUIDataScriptableObject;
         
+        [Header("STORY SCENE OBJECTS")]
         [SerializeField] private Transform _storyTextParent;
+        [SerializeField] private Transform _storyTempTextParent;
+        [SerializeField] private GameObject _dummyPanel;
         [SerializeField] private StoryDialogue _storyDialoguePrefab;
         [SerializeField] public OptionDialogue _optionDialoguePrefab;
 
+        [Header("STORY UI OPTIONS")]
         [SerializeField] private float _optionDialoguePrefabFadeDuration;
+        [SerializeField] private float _dialogueFadeInDuration = 1f;
+        [SerializeField] private int _interDialogueSpacingValue;
+        [SerializeField] private int _dialoguePaddingValue; 
         
         private List<OptionDialogue> _optionDialogues = new List<OptionDialogue>();
 
-        public void CreateStoryDialogueForThisText(string storyText)
+        private void Start()
         {
-            if (storyText.Contains("-"))
-            {
-                var storyData = GetStoryDataFromStoryText(storyText);
-                
-                var storyDialogueGameObject = Instantiate(_storyDialoguePrefab, _storyTextParent);
-
-                var characterUIData =
-                    _storyUIDataScriptableObject.storyUIData.characterUIDatas[storyData.characterID - 1];
-                
-                storyDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.dialogueBackgroundColor);
-            }
+            _storyTextParent.GetComponent<VerticalLayoutGroup>().spacing = _interDialogueSpacingValue;
         }
 
         private StoryData GetStoryDataFromStoryText(string storyText)
@@ -56,45 +55,80 @@ namespace YarnSpinnerUnityExtensions
             return storyData;
         }
 
+        private IEnumerator InstantiateDialogueGameObject(Component storyDialogueTempGameObject)
+        {
+            yield return new WaitForSeconds(0.01f);
+            
+            var height = GetHeightOfThisRect(storyDialogueTempGameObject);
+
+            var dummyPanel = Instantiate(_dummyPanel, _storyTextParent);
+            dummyPanel.GetComponent<LayoutElement>().DOMinSize(new Vector2(0, height), _dialogueFadeInDuration);
+
+            StartCoroutine(FadeInDialogue(storyDialogueTempGameObject, dummyPanel));
+        }
+
+        private IEnumerator FadeInDialogue(Component storyDialogueTempGameObject, GameObject dummyPanel)
+        {
+            yield return new WaitForSeconds(_dialogueFadeInDuration);
+            
+            storyDialogueTempGameObject.transform.SetParent(_storyTextParent);
+            storyDialogueTempGameObject.GetComponent<CanvasGroup>().DOFade(1, _dialogueFadeInDuration);
+
+            dummyPanel.GetComponent<LayoutElement>().ignoreLayout = true;
+        }
+        
+        public void CreateStoryDialogueForThisText(string storyText)
+        {
+            if (storyText.Contains("-"))
+            {
+                var storyData = GetStoryDataFromStoryText(storyText);
+
+                var storyDialogueGameObject = Instantiate(_storyDialoguePrefab, _storyTempTextParent);
+
+                var characterUIData =
+                    _storyUIDataScriptableObject.storyUIData.characterUIDatas[storyData.characterID - 1];
+                
+                storyDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.dialogueBackgroundColor, _dialoguePaddingValue);
+
+                StartCoroutine(InstantiateDialogueGameObject(storyDialogueGameObject));
+            }
+        }
+
         public OptionDialogue GenerateOptionForThisNode(string optionText)
         {
             var storyData = GetStoryDataFromStoryText(optionText);
 
-            var optionDialogueGameObject = Instantiate(_optionDialoguePrefab, _storyTextParent);
-            
+            var optionDialogueGameObject = Instantiate(_optionDialoguePrefab, _storyTempTextParent);
+
             var characterUIData =
                 _storyUIDataScriptableObject.storyUIData.characterUIDatas[storyData.characterID - 1];
             
-            optionDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.optionBackgroundColor);
+            optionDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.optionBackgroundColor, _dialoguePaddingValue);
             
-            optionDialogueGameObject.dialogueButton.onClick.
-                AddListener(() => 
-                    DestroyRemainingOptionDialoguesOnSelection(optionDialogueGameObject));
+            StartCoroutine(InstantiateDialogueGameObject(optionDialogueGameObject));
             
             _optionDialogues.Add(optionDialogueGameObject);
             
             return optionDialogueGameObject;
         }
 
-        private void DestroyRemainingOptionDialoguesOnSelection
-            (OptionDialogue optionDialogue)
+        public void DestroyRemainingOptionDialoguesOnSelection
+            (int chosenOptionID)
         {
-            foreach (var dialogue in _optionDialogues)
+            var optionDialogue = _optionDialogues[chosenOptionID];
+            
+            for (var i = 0; i < _optionDialogues.Count; i++)
             {
-                if (optionDialogue != dialogue)
+                if (i == 0)
                 {
-                    var rect = dialogue.GetComponent<RectTransform>().rect;
-                    var height = rect.height;
-                    dialogue.GetComponent<VerticalLayoutGroup>().enabled = false;
-                    var layoutElement = dialogue.GetComponent<LayoutElement>();
-                    layoutElement.minHeight = height;
-                    layoutElement.DOMinSize(Vector2.zero, _optionDialoguePrefabFadeDuration);
-                    StartCoroutine(DestroyGameObject(_optionDialoguePrefabFadeDuration, dialogue.gameObject));
+                    _optionDialogues[i].ChangeOptionToDialogue(optionDialogue.Dialogue, optionDialogue.ThisCharacterUIData.dialogueBackgroundColor);
+                    optionDialogue.dialogueButton.interactable = false;
+                }
+                else
+                {
+                    StartCoroutine(DestroyGameObject(0, _optionDialogues[i].gameObject));
                 }
             }
-
-            optionDialogue.dialogueButton.interactable = false;
-            optionDialogue.ChangeOptionToDialogue();
 
             _optionDialogues.Clear();
         }
@@ -104,6 +138,12 @@ namespace YarnSpinnerUnityExtensions
             yield return new WaitForSeconds(duration);
             
             Destroy(thisGameObject);
+        }
+
+        private static float GetHeightOfThisRect(Component component)
+        {
+            var rect = component.GetComponent<RectTransform>().rect;
+            return rect.height;
         }
     }
 }

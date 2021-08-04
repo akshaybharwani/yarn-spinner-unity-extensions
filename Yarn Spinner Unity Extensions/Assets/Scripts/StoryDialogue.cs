@@ -6,10 +6,18 @@ using UnityEngine.UI;
 
 public class StoryDialogue : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _dialogueText;
+    [SerializeField] protected TextMeshProUGUI _dialogueText;
     [SerializeField] protected Image _dialogueBackgroundImage;
+    private string dialogue;
     private RectTransform _backgroundRectTransform;
     protected CharacterUIData _thisCharacterUIData;
+
+    public CharacterUIData ThisCharacterUIData => _thisCharacterUIData;
+
+    public string Dialogue
+    {
+        get => dialogue;
+    }
     
     private VerticalLayoutGroup _verticalLayoutGroup;
 
@@ -19,12 +27,21 @@ public class StoryDialogue : MonoBehaviour
         _backgroundRectTransform = _dialogueBackgroundImage.GetComponent<RectTransform>();
     }
 
-    public void InstantiateDialogue(string dialogueText, CharacterUIData characterUIData, Color32 color32)
+    private void Start()
+    {
+        
+    }
+
+    public void InstantiateDialogue(string dialogueText, CharacterUIData characterUIData, Color32 color32, int topBottomPadding)
     {
         _thisCharacterUIData = characterUIData;
-        
+
+        dialogue = dialogueText;
         _dialogueText.text = dialogueText;
 
+        _verticalLayoutGroup.padding.top = topBottomPadding;
+        _verticalLayoutGroup.padding.bottom = topBottomPadding;
+        
         switch (characterUIData.dialogueAlignment)
         {
             case CharacterUIData.DialogueAlignment.left:
