@@ -17,133 +17,146 @@ namespace YarnSpinnerUnityExtensions
     }    
     public class StoryHandler : MonoBehaviour
     {
-        [Header("STORY UI DATA")]
-        [SerializeField] private StoryUIDataScriptableObject _storyUIDataScriptableObject;
-        
+        [Header("DATA")]
+        [SerializeField] private CharacterUIDataScriptableObject characterUIDataScriptableObject;
+        [SerializeField] private UIOptionsDataScriptableObject UIOptionsDataScriptableObject;
+
         [Header("STORY SCENE OBJECTS")]
-        [SerializeField] private Transform _storyTextParent;
-        [SerializeField] private Transform _storyTempTextParent;
-        [SerializeField] private GameObject _dummyPanel;
-        [SerializeField] private StoryDialogue _storyDialoguePrefab;
-        [SerializeField] public OptionDialogue _optionDialoguePrefab;
+        [SerializeField] private Transform storyTextParent;
+        [SerializeField] private DialogueTextBox tempTextBox ;
+        [SerializeField] private DialogueTextBox dialogueTextBoxPrefab;
+        [SerializeField] public OptionButtonTextBox optionButtonPrefab;
 
-        [Header("STORY UI OPTIONS")]
-        [SerializeField] private float _optionDialoguePrefabFadeDuration;
-        [SerializeField] private float _dialogueFadeInDuration = 1f;
-        [SerializeField] private int _interDialogueSpacingValue;
-        [SerializeField] private int _dialoguePaddingValue; 
+        private UIOptionsData _UIOptionsData;
         
-        private List<OptionDialogue> _optionDialogues = new List<OptionDialogue>();
+        private float _optionButtonFadeDuration;
+        private float _textBoxFadeInDuration;
+        private TextBoxUIValues _textBoxUIValues = new TextBoxUIValues();
 
-        private void Start()
+        private RectTransform _rectTransfrom;
+        private ContentSizeFitter _contentSizeFitter;
+        
+        private List<OptionButtonTextBox> optionButtonTextBoxes = new List<OptionButtonTextBox>();
+
+        private void Awake()
         {
-            _storyTextParent.GetComponent<VerticalLayoutGroup>().spacing = _interDialogueSpacingValue;
+            // Assign UI Data Options for this Story
+            _UIOptionsData = UIOptionsDataScriptableObject.UIOptionsData;
+            _textBoxUIValues = UIOptionsDataScriptableObject.textBoxUIValues;
+            
+            _optionButtonFadeDuration = _UIOptionsData.optionButtonFadeDuration;
+            _textBoxFadeInDuration = _UIOptionsData.textBoxFadeInDuration;
+
+            _rectTransfrom = tempTextBox.GetComponent<RectTransform>();
         }
 
         private StoryData GetStoryDataFromStoryText(string storyText)
         {
             var characterNameEndIndex = storyText.IndexOf(":", StringComparison.Ordinal);
 
-            var ID = storyText.Substring(1, 1);
+            var ID = storyText.Substring(0, 1);
             
-            var characterName = storyText.Substring(2,  characterNameEndIndex - 1);
+            var characterName = storyText.Substring(1,  characterNameEndIndex - 1);
 
             var dialogueText = storyText.Substring(characterNameEndIndex + 2);
 
-            var storyData = new StoryData {dialogueText = dialogueText,characterID = int.Parse(ID), characterName = characterName};
+            var storyData = new StoryData {dialogueText = dialogueText, characterID = int.Parse(ID), characterName = characterName};
 
             return storyData;
         }
 
-        private IEnumerator InstantiateDialogueGameObject(Component storyDialogueTempGameObject)
+        private float GetHeightOfTempTextBox(CharacterUIData characterUIData, TextBoxUIValues textBoxUIValues, string storyText)
         {
-            yield return new WaitForSeconds(0.01f);
+            tempTextBox.AddTextToDialogue(storyText);
             
-            var height = GetHeightOfThisRect(storyDialogueTempGameObject);
+            tempTextBox.SetDialogueAlignment(characterUIData.textBoxAlignment, textBoxUIValues);
 
-            var dummyPanel = Instantiate(_dummyPanel, _storyTextParent);
-            dummyPanel.GetComponent<LayoutElement>().DOMinSize(new Vector2(0, height), _dialogueFadeInDuration);
-
-            StartCoroutine(FadeInDialogue(storyDialogueTempGameObject, dummyPanel));
-        }
-
-        private IEnumerator FadeInDialogue(Component storyDialogueTempGameObject, GameObject dummyPanel)
-        {
-            yield return new WaitForSeconds(_dialogueFadeInDuration);
+            var verticalPadding = textBoxUIValues.verticalPadding + textBoxUIValues.interTextBoxSpacingValue;
             
-            storyDialogueTempGameObject.transform.SetParent(_storyTextParent);
-            storyDialogueTempGameObject.GetComponent<CanvasGroup>().DOFade(1, _dialogueFadeInDuration);
-
-            dummyPanel.GetComponent<LayoutElement>().ignoreLayout = true;
+            tempTextBox.SetTextBoxVerticalPadding(verticalPadding);
+            
+            Canvas.ForceUpdateCanvases();
+            
+            return _rectTransfrom.rect.height;
         }
         
         public void CreateStoryDialogueForThisText(string storyText)
         {
-            if (storyText.Contains("-"))
+            var storyData = GetStoryDataFromStoryText(storyText);
+            
+            var characterUIData =
+                characterUIDataScriptableObject.characterUIDatas[storyData.characterID - 1];
+
+            var height = GetHeightOfTempTextBox(characterUIData, _textBoxUIValues, storyData.dialogueText);
+
+            DialogueTextBox dialogueTextBox;
+            
+            if (optionButtonTextBoxes.Count > 0)
             {
-                var storyData = GetStoryDataFromStoryText(storyText);
+                dialogueTextBox = optionButtonTextBoxes[0];
 
-                var storyDialogueGameObject = Instantiate(_storyDialoguePrefab, _storyTempTextParent);
-
-                var characterUIData =
-                    _storyUIDataScriptableObject.storyUIData.characterUIDatas[storyData.characterID - 1];
-                
-                storyDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.dialogueBackgroundColor, _dialoguePaddingValue);
-
-                StartCoroutine(InstantiateDialogueGameObject(storyDialogueGameObject));
+                optionButtonTextBoxes.RemoveAt(0);
             }
+            else
+            {
+                dialogueTextBox = Instantiate(dialogueTextBoxPrefab, storyTextParent);
+            }
+            
+            InstantiateTextBoxObject(dialogueTextBox, characterUIData, height, storyData.dialogueText, _textBoxFadeInDuration);
+        }
+        
+        private void InstantiateTextBoxObject(DialogueTextBox prefab, CharacterUIData characterUIData, float height, string storyText, float animationDuration)
+        {
+            prefab.SetDialogueUI(characterUIData, _textBoxUIValues, height, animationDuration);
+
+            StartCoroutine(SetTextBoxText(prefab, storyText, animationDuration));
         }
 
-        public OptionDialogue GenerateOptionForThisNode(string optionText)
+        private IEnumerator SetTextBoxText(DialogueTextBox textBox, string storyText, float animationDuration)
+        {
+            yield return new WaitForSeconds(animationDuration);
+
+            textBox.InstantiateDialogue(storyText, CharacterUIData.TypeOfTextBox.Dialogue, animationDuration);
+        }
+
+        public OptionButtonTextBox GenerateOptionForThisNode(string optionText)
         {
             var storyData = GetStoryDataFromStoryText(optionText);
 
-            var optionDialogueGameObject = Instantiate(_optionDialoguePrefab, _storyTempTextParent);
-
             var characterUIData =
-                _storyUIDataScriptableObject.storyUIData.characterUIDatas[storyData.characterID - 1];
+                characterUIDataScriptableObject.characterUIDatas[storyData.characterID - 1];
             
-            optionDialogueGameObject.InstantiateDialogue(storyData.dialogueText, characterUIData, characterUIData.optionBackgroundColor, _dialoguePaddingValue);
+            var height = GetHeightOfTempTextBox(characterUIData, _textBoxUIValues, storyData.dialogueText);
             
-            StartCoroutine(InstantiateDialogueGameObject(optionDialogueGameObject));
+            var optionDialogueGameObject = Instantiate(optionButtonPrefab, storyTextParent);
             
-            _optionDialogues.Add(optionDialogueGameObject);
+            InstantiateTextBoxObject(optionDialogueGameObject, characterUIData, height, storyData.dialogueText, _textBoxFadeInDuration);
+            
+            optionButtonTextBoxes.Add(optionDialogueGameObject);
             
             return optionDialogueGameObject;
         }
 
-        public void DestroyRemainingOptionDialoguesOnSelection
-            (int chosenOptionID)
+        public void DestroyRemainingOptionDialoguesOnSelection(int chosenOptionID)
         {
-            var optionDialogue = _optionDialogues[chosenOptionID];
+            var optionDialogue = optionButtonTextBoxes[chosenOptionID];
             
-            for (var i = 0; i < _optionDialogues.Count; i++)
+            for (var i = 0; i < optionButtonTextBoxes.Count; i++)
             {
+                optionButtonTextBoxes[i].ToggleOptionVisibility(false);
+                optionButtonTextBoxes[i].ClearText();
+                optionButtonTextBoxes[i].dialogueButton.interactable = false;
+                
                 if (i == 0)
                 {
-                    _optionDialogues[i].ChangeOptionToDialogue(optionDialogue.Dialogue, optionDialogue.ThisCharacterUIData.dialogueBackgroundColor);
-                    optionDialogue.dialogueButton.interactable = false;
-                }
-                else
-                {
-                    StartCoroutine(DestroyGameObject(0, _optionDialogues[i].gameObject));
+                    var height = GetHeightOfTempTextBox(optionDialogue.ThisCharacterUIData, _textBoxUIValues, optionDialogue.Dialogue);
+
+                    InstantiateTextBoxObject(optionButtonTextBoxes[i], optionDialogue.ThisCharacterUIData, height, optionDialogue.Dialogue, _optionButtonFadeDuration);
                 }
             }
-
-            _optionDialogues.Clear();
-        }
-        
-        private IEnumerator DestroyGameObject(float duration, GameObject thisGameObject) 
-        {
-            yield return new WaitForSeconds(duration);
             
-            Destroy(thisGameObject);
-        }
-
-        private static float GetHeightOfThisRect(Component component)
-        {
-            var rect = component.GetComponent<RectTransform>().rect;
-            return rect.height;
+            // Remove the first Option Dialogue as it's already been used for the selection
+            optionButtonTextBoxes.RemoveAt(0);
         }
     }
 }

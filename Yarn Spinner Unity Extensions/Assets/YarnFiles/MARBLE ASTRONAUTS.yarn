@@ -3,125 +3,125 @@ tags:
 colorID: 0
 position: -145,-664
 ---
--1Aziz Narrator : The great lake of Oduk lies silent beneath us. A dark mirror where stars are but pin pricks and the reflection of the moon is befogged, as if swallowed by a secret current that does not disturb the placid surface.
--1Aziz Narrator : Azaam potters ahead, the folds of his kurta tied at the waist.
--1Aziz Narrator : The deep waters do not scare him. He knows not the name of the lake. Nor the tale of the army of the iron soldiers of Jumbali, who are drowned in these murky depths and who swallow bits of the sky for their sodden sustenance, letting no light leak their hungry maw. 
--1Aziz Narrator : But I have seen the story painted endlessly in books and folios about Jumbali, and I can smell the horrors buried in this water. 
--1Aziz Narrator : Or perhaps it is just the rank mud and the lichen encrusted pylons that I smell, but I am glad to be perched far above the deep even if only on a precarious bamboo bridge. 
--1Aziz Narrator : A bamboo bridge that has begun to rattle with the sound of padded feet,  <i> phup . thup . phup . thup </i> marching towards us in a deliberate rhythm.
-[[-1Aziz Narrator : I turn around, seeking shape to the sound.|node1.1]]
-[[-1Aziz : Wait Azaam, do you hear that?|node1.2]]
-[[-1Aziz : Can you hear those footsteps Azaam? Run!|node1.3]]
+1Aziz Narrator : The great lake of Oduk lies silent beneath us. A dark mirror where stars are but pin pricks and the reflection of the moon is befogged, as if swallowed by a secret current that does not disturb the placid surface.
+1Aziz Narrator : Azaam potters ahead, the folds of his kurta tied at the waist.
+1Aziz Narrator : The deep waters do not scare him. He knows not the name of the lake. Nor the tale of the army of the iron soldiers of Jumbali, who are drowned in these murky depths and who swallow bits of the sky for their sodden sustenance, letting no light leak their hungry maw. 
+1Aziz Narrator : But I have seen the story painted endlessly in books and folios about Jumbali, and I can smell the horrors buried in this water. 
+1Aziz Narrator : Or perhaps it is just the rank mud and the lichen encrusted pylons that I smell, but I am glad to be perched far above the deep even if only on a precarious bamboo bridge. 
+1Aziz Narrator : A bamboo bridge that has begun to rattle with the sound of padded feet,  <i> phup . thup . phup . thup </i> marching towards us in a deliberate rhythm.
+[[1Aziz Narrator : I turn around, seeking shape to the sound.|node1.1]]
+[[1Aziz : Wait Azaam, do you hear that? |node1.2]]
+[[1Aziz : Can you hear those footsteps Azaam? Run!|node1.3]]
 ===
 title: node1.1
 tags: 
 colorID: 0
 position: -367,-380
 ---
--1Narrator Aziz : And I see a troupe of travelers walking towards us.
--3Azaam : Astronauts!
--3Azaam : By the grace of Allah! Look Aziz, they are Astronauts.
--1Narrator Aziz : And surely enough, the people have great domes of glass covering their heads and their bodies are padded with yards of cloth, held in place by strings and wires and tiny brass bells.
--1Narrator Aziz : We stand there staring.
--1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
--1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
--3Azaam : What are Astronauts doing in BhulaDesh?
--3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
--2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
--1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
--3Azaam : Do you remember when they came to our village?
--2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
--3Azaam : And remember what he told us before he gave us a coin?
--2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
--2Aziz : A difficult life.
--3Azaam : Why do you say that?
--2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
--Azaam : What a morose fellow you are, can't even find joy in marbles.
--1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
--1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
-[[-1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
-[[-1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
+1Narrator Aziz : And I see a troupe of travelers walking towards us.
+3Azaam : Astronauts!
+3Azaam : By the grace of Allah! Look Aziz, they are Astronauts.
+1Narrator Aziz : And surely enough, the people have great domes of glass covering their heads and their bodies are padded with yards of cloth, held in place by strings and wires and tiny brass bells.
+1Narrator Aziz : We stand there staring.
+1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
+1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
+3Azaam : What are Astronauts doing in BhulaDesh?
+3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
+2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
+1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
+3Azaam : Do you remember when they came to our village?
+2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
+3Azaam : And remember what he told us before he gave us a coin?
+2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
+2Aziz : A difficult life.
+3Azaam : Why do you say that?
+2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
+3Azaam : What a morose fellow you are, can't even find joy in marbles.
+1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
+1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
+[[1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
+[[1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
 ===
 title: node1.2
 tags: 
 colorID: 0
 position: -93,-378
 ---
--3Azaam : It is Astronauts! Look brother a troupe of Astronauts.
--1Narrator Aziz : And surely enough, walking in a single file there are a dozen people marching towards us. 
--1Narrator Aziz : Their heads are covered by domes of glass and their bodies are padded with cotton cloth, held in place by strings and wires and brass buttons and small ivory bells that tinkle ever so softly in the still air of the evening.
--1Narrator Aziz : We stand there staring.
--1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
--1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
--3Azaam : What are Astronauts doing in BhulaDesh?
--3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
--2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
--1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
--3Azaam : Do you remember when they came to our village?
--2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
--3Azaam : And remember what he told us before he gave us a coin?
--2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
--2Aziz : A difficult life.
--3Azaam : Why do you say that?
--2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
--3Azaam : What a morose fellow you are, can't even find joy in marbles.
--1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
--1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
-[[-1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
-[[-1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
+3Azaam : It is Astronauts! Look brother a troupe of Astronauts. It is Astronauts! Look brother a troupe of Astronauts.
+1Narrator Aziz : And surely enough, walking in a single file there are a dozen people marching towards us. 
+1Narrator Aziz : Their heads are covered by domes of glass and their bodies are padded with cotton cloth, held in place by strings and wires and brass buttons and small ivory bells that tinkle ever so softly in the still air of the evening.
+1Narrator Aziz : We stand there staring.
+1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
+1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
+3Azaam : What are Astronauts doing in BhulaDesh?
+3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
+2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
+1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
+3Azaam : Do you remember when they came to our village?
+2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
+3Azaam : And remember what he told us before he gave us a coin?
+2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
+2Aziz : A difficult life.
+3Azaam : Why do you say that?
+2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
+3Azaam : What a morose fellow you are, can't even find joy in marbles.
+1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
+1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
+[[1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
+[[1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
 ===
 title: node1.3
 tags: 
 colorID: 0
 position: 188,-373
 ---
--1Narrator Aziz : Afraid of the narrow girth of the bridge, afraid of the soldiers who pursue us, afraid of the emptiness of BhulaDesh, afraid of all that has sent us into exile, I want to flee even the hint of danger.
--3Azaam : No. Wait, I think they are Astronauts!
--1Narrator Aziz : And surely enough, the people marching towards us have their heads covered by great domes of glass, and their bodies padded with coarse cloth and copper strings and burnished buttons that gleam like gold in the night.
--1Narrator Aziz : We stand there staring.
--1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
--1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
--3Azaam : What are Astronauts doing in BhulaDesh?
--3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
--2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
--1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
--3Azaam : Do you remember when they came to our village?
--2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
--3Azaam : And remember what he told us before he gave us a coin?
--2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
--2Aziz : A difficult life.
--3Azaam : Why do you say that?
--2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
--3Azaam : What a morose fellow you are, can't even find joy in marbles.
--1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
--1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
-[[-1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
-[[-1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
+1Narrator Aziz : Afraid of the narrow girth of the bridge, afraid of the soldiers who pursue us, afraid of the emptiness of BhulaDesh, afraid of all that has sent us into exile, I want to flee even the hint of danger.
+3Azaam : No. Wait, I think they are Astronauts!
+1Narrator Aziz : And surely enough, the people marching towards us have their heads covered by great domes of glass, and their bodies padded with coarse cloth and copper strings and burnished buttons that gleam like gold in the night.
+1Narrator Aziz : We stand there staring.
+1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
+1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
+3Azaam : What are Astronauts doing in BhulaDesh?
+3Azaam : There are no children here who would want to play with marbles, who do you think they will sell their wares to?
+2Aziz : Perhaps they are not looking to sell their wares. Perhaps they are looking for Kayamgadh, like everyone else here. 
+1Aziz Narrator : We watch them round a bend in the bridge and emerge the next minute holding onto the bamboo stilts with their enormous padded hands.
+3Azaam : Do you remember when they came to our village?
+2Aziz : Indeed! And we begged Abu for a handful of cowrie shells to buy a bag of green marbles.
+3Azaam : And remember what he told us before he gave us a coin?
+2Aziz : That Astronauts float out into the night and pry the planets and stars from the sky to bring them back as marbles for children to play with. For such is their profession.
+2Aziz : A difficult life.
+3Azaam : Why do you say that?
+2Aziz : To float beyond the sky each evening, ever afraid of becoming unmoored. To smear the darkness of the night and harvest the very glimmers of light that give hope to all travelers, leaving the firmament a little bit darker and a little bit empty with each visit. Why, I would be cursed for such a harvest, as I am sure they are.
+3Azaam : What a morose fellow you are, can't even find joy in marbles.
+1Narrator Aziz : I want to say that joy is found in the ignorance of childhood and not the vapid pleasure of glass beads and marbles, but before I can reply, the Astronauts are walking past us. 
+1Narrator Aziz : Their bells jingling softly, their gait measured and careful so as not to jostle us on that narrow bridge.
+[[1Narrator Aziz : Without a common tongue between us, I simply raise my hand in salutation.|node2.1]]
+[[1Narrator Aziz : I stand there mute, staring unabashedly at their curious manifestation.|node2.1]]
 ===
 title: node2.1
 tags: 
 colorID: 0
 position: -113,89
 ---
--1Narrator Aziz : The last Astronaut, her clothes bulky and yellow with dirt and age, stops, turns around and pulls a handful of glinting marbles from her pocket holding them out on the palm of her gloved hand. 
--1Narrator Aziz : There is a brilliant red ball like a miniature planet. And a white marble with a dim heart of a star still trapped within it. And there is a thin veined green marble as if made solid from lines of ethereal dust and smoke.
-[[-1Narrator Aziz : I shake my head and refuse the poffered gift, not knowing what she might ask in return.|node3.1]]
-[[-1Narrator Aziz : I snatch the beautiful white marble from her outstretched hand.|node3.2]]
-[[-1Narrator Aziz : I carefully pick the red marble.|node3.2]]
+1Narrator Aziz : The last Astronaut, her clothes bulky and yellow with dirt and age, stops, turns around and pulls a handful of glinting marbles from her pocket holding them out on the palm of her gloved hand. 
+1Narrator Aziz : There is a brilliant red ball like a miniature planet. And a white marble with a dim heart of a star still trapped within it. And there is a thin veined green marble as if made solid from lines of ethereal dust and smoke.
+[[1Narrator Aziz : I shake my head and refuse the poffered gift, not knowing what she might ask in return.|node3.1]]
+[[1Narrator Aziz : I snatch the beautiful white marble from her outstretched hand.|node3.2]]
+[[1Narrator Aziz : I carefully pick the red marble.|node3.2]]
 ===
 title: node3.1
 tags: 
 colorID: 0
 position: -211,371
 ---
--1Narrator Aziz : And although I cannot see her face beneath the glass dome, I think she is sorry. For she closes her fist and drops the marbles into the lake,
--1Narrator Aziz : where they glow in the murk and for a moment and seem to become stars again in that wet and dark firmament.
+1Narrator Aziz : And although I cannot see her face beneath the glass dome, I think she is sorry. For she closes her fist and drops the marbles into the lake,
+1Narrator Aziz : where they glow in the murk and for a moment and seem to become stars again in that wet and dark firmament.
 ===
 title: node3.2
 tags: 
 colorID: 0
 position: 54,373
 ---
--1Narrator Aziz : As the Astronauts continue their journey, I stand on the bridge and hold the marble up to light, the round gift gleaming between my fingers.
--1narrator Aziz : And I wonder if it is indeed mined from the eternal sky.
+1Narrator Aziz : As the Astronauts continue their journey, I stand on the bridge and hold the marble up to light, the round gift gleaming between my fingers.
+1narrator Aziz : And I wonder if it is indeed mined from the eternal sky.
 ===

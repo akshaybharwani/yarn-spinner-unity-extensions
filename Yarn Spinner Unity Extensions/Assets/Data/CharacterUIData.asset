@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10972105ad4a26f44bb5ad67726c9945, type: 3}
+  m_Name: CharacterUIData
+  m_EditorClassIdentifier: 
+  characterUIDatas:
+  - characterID: 1
+    dialogueBackgroundColor:
+      serializedVersion: 2
+      rgba: 4286019484
+    dialogueBackgroundImage: {fileID: 0}
+    optionBackgroundColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    optionBackgroundImage: {fileID: 21300000, guid: 74536d5fc2d514bf1a04957e767ef5e2, type: 3}
+    textBoxAlignment: 1
+  - characterID: 2
+    dialogueBackgroundColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    dialogueBackgroundImage: {fileID: 0}
+    optionBackgroundColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    optionBackgroundImage: {fileID: 0}
+    textBoxAlignment: 0
+  - characterID: 3
+    dialogueBackgroundColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    dialogueBackgroundImage: {fileID: 0}
+    optionBackgroundColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    optionBackgroundImage: {fileID: 0}
+    textBoxAlignment: 2

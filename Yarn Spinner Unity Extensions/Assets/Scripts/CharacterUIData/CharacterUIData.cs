@@ -5,16 +5,23 @@ using UnityEngine.UI;
 [Serializable]
 public class CharacterUIData
 {
-    public enum DialogueAlignment {
+    public enum TextBoxAlignment {
         left,
         center,
         right
     }
+
+    public enum TypeOfTextBox
+    {
+        Dialogue,
+        Option
+    }
     
     public string characterID;
     public Color32 dialogueBackgroundColor;
+    public Sprite dialogueBackgroundImage;
     public Color32 optionBackgroundColor;
-    public Image backgroundImage;
-    public DialogueAlignment dialogueAlignment;
+    public Sprite optionBackgroundImage;
+    public TextBoxAlignment textBoxAlignment;
 }
 

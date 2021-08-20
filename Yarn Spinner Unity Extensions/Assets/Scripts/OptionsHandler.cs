@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OptionsHandler : MonoBehaviour
 {
-    [SerializeField] private OptionDialogue _optionDialoguePrefab;
+    [SerializeField] private OptionButtonTextBox optionButtonTextBoxPrefab;
     
     // Start is called before the first frame update
     void Start()

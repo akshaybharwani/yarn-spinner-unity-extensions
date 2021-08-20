@@ -82,6 +82,8 @@ namespace Yarn.Unity {
         public List<Button> optionButtons;
 
         public StoryHandler storyHandler;
+        public UIOptionsDataScriptableObject UIOptionsDataScriptableObject;
+        private float _dialogueAfterChoiceDuration;
 
         // When true, the user has indicated that they want to proceed to
         // the next line.
@@ -255,6 +257,8 @@ namespace Yarn.Unity {
         
         internal void Awake ()
         {
+            _dialogueAfterChoiceDuration = UIOptionsDataScriptableObject.UIOptionsData.dialogueAfterChoiceDuration;
+            
             // Start by hiding the container
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(false);
@@ -477,7 +481,7 @@ namespace Yarn.Unity {
             
             storyHandler.DestroyRemainingOptionDialoguesOnSelection(optionID);
 
-            StartCoroutine(ShowNextNodeAfterOptionSelection(2, optionID));
+            StartCoroutine(ShowNextNodeAfterOptionSelection(_dialogueAfterChoiceDuration, optionID));
         }
         
         private IEnumerator ShowNextNodeAfterOptionSelection(float duration, int optionID) 

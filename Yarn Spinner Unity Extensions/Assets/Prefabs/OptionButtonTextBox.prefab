@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueText: {fileID: 3244897973362838451}
-  _dialogueBackgroundImage: {fileID: 3405003415649930026}
+  _textBoxBackgroundImage: {fileID: 3405003415649930026}
   dialogueButton: {fileID: 2235476933446507504}
 --- !u!114 &2235476933446507504
 MonoBehaviour:
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.7735849, g: 0.7692061, b: 0.7692061, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
@@ -68,7 +68,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3325993909912428674, guid: 0c1df53ed1c234041856768875c9fd02, type: 3}
       propertyPath: m_Name
-      value: OptionDialogueButtonPanel
+      value: OptionButtonTextBox
       objectReference: {fileID: 0}
     - target: {fileID: 3779106733074260267, guid: 0c1df53ed1c234041856768875c9fd02, type: 3}
       propertyPath: m_Interactable
