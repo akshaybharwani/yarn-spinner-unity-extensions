@@ -132,6 +132,7 @@ public class DialogueTextBox : MonoBehaviour
         _canvasGroup.DOFade(1, animationDuration);
 
         SetTextBoxBackground(ThisCharacterUIData, typeOfTextBox);
+        SetTextBoxFontOptions(ThisCharacterUIData);
     }
 
     private void SetTextBoxBackground(CharacterUIData characterUIData, CharacterUIData.TypeOfTextBox typeOfTextBox)
@@ -161,6 +162,13 @@ public class DialogueTextBox : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(typeOfTextBox), typeOfTextBox, null);
         }
+    }
+
+    private void SetTextBoxFontOptions(CharacterUIData characterUIData)
+    {
+        if (characterUIData.fontAsset)
+            _dialogueText.font = characterUIData.fontAsset;
+        _dialogueText.color = characterUIData.fontColor;
     }
 
     public void ToggleOptionVisibility(bool toggleValue)

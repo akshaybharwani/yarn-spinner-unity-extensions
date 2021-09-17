@@ -23,6 +23,8 @@ public class CharacterUIData
     public Sprite dialogueBackgroundImage;
     public Color32 optionBackgroundColor;
     public Sprite optionBackgroundImage;
+    public TMP_FontAsset fontAsset;
+    public Color32 fontColor;
     public TextBoxAlignment textBoxAlignment;
 }
 

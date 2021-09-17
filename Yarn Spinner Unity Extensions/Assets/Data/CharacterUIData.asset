@@ -20,18 +20,26 @@ MonoBehaviour:
     dialogueBackgroundImage: {fileID: 0}
     optionBackgroundColor:
       serializedVersion: 2
-      rgba: 4278190080
-    optionBackgroundImage: {fileID: 21300000, guid: 74536d5fc2d514bf1a04957e767ef5e2, type: 3}
+      rgba: 4278190258
+    optionBackgroundImage: {fileID: 0}
+    fontAsset: {fileID: 11400000, guid: f7def9ad124060c4caef0ea58e51f5b0, type: 2}
+    fontColor:
+      serializedVersion: 2
+      rgba: 4285071360
     textBoxAlignment: 1
   - characterID: 2
     dialogueBackgroundColor:
       serializedVersion: 2
-      rgba: 4278190080
+      rgba: 4285399158
     dialogueBackgroundImage: {fileID: 0}
     optionBackgroundColor:
       serializedVersion: 2
-      rgba: 4278190080
+      rgba: 4279560092
     optionBackgroundImage: {fileID: 0}
+    fontAsset: {fileID: 0}
+    fontColor:
+      serializedVersion: 2
+      rgba: 4278190080
     textBoxAlignment: 0
   - characterID: 3
     dialogueBackgroundColor:
@@ -42,4 +50,8 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 4278190080
     optionBackgroundImage: {fileID: 0}
+    fontAsset: {fileID: 0}
+    fontColor:
+      serializedVersion: 2
+      rgba: 4278190080
     textBoxAlignment: 2
