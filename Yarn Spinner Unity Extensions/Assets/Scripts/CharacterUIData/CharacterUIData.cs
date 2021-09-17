@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class CharacterUIData
         Dialogue,
         Option
     }
-    
+
     public string characterID;
     public Color32 dialogueBackgroundColor;
     public Sprite dialogueBackgroundImage;

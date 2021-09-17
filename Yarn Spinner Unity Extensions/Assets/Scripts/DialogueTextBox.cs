@@ -37,7 +37,7 @@ public class DialogueTextBox : MonoBehaviour
     {
         _dialogueText.text = "";
     }
-    
+
     public void AddTextToDialogue(string storyText)
     {
         _dialogueText.text = storyText;
@@ -46,15 +46,15 @@ public class DialogueTextBox : MonoBehaviour
     public void SetDialogueUI(CharacterUIData characterUIData, TextBoxUIValues textBoxUIValues, float height, float animationDuration)
     {
         ThisCharacterUIData = characterUIData;
-        
+
         SetDialogueAlignment(characterUIData.textBoxAlignment, textBoxUIValues);
 
         Height = height;
-        
+
         _layoutElement.DOMinSize(new Vector2(0, height), animationDuration);
 
         var verticalPadding = textBoxUIValues.verticalPadding + textBoxUIValues.interTextBoxSpacingValue;
-        
+
         StartCoroutine(SetTextBoxVerticalPaddingAfterHeightIsSet(verticalPadding, animationDuration));
     }
 
@@ -65,33 +65,33 @@ public class DialogueTextBox : MonoBehaviour
         switch (textBoxAlignment)
         {
             case CharacterUIData.TextBoxAlignment.left:
-                SetBackgroundSize(textBoxUIValues.minHorizontalMargin, 
-                    textBoxUIValues.maxHorizontalMargin, 
-                    verticalMargin, 
+                SetBackgroundSize(textBoxUIValues.minHorizontalMargin,
+                    textBoxUIValues.maxHorizontalMargin,
+                    verticalMargin,
                     verticalMargin);
-                
-                SetTextBoxHorizontalPadding(textBoxUIValues.minHorizontalMargin + textBoxUIValues.horizontalPadding, 
+
+                SetTextBoxHorizontalPadding(textBoxUIValues.minHorizontalMargin + textBoxUIValues.horizontalPadding,
                     textBoxUIValues.maxHorizontalMargin + textBoxUIValues.horizontalPadding);
-                
+
                 break;
             case CharacterUIData.TextBoxAlignment.right:
-                SetBackgroundSize(textBoxUIValues.maxHorizontalMargin, 
-                    textBoxUIValues.minHorizontalMargin, 
-                    verticalMargin, 
+                SetBackgroundSize(textBoxUIValues.maxHorizontalMargin,
+                    textBoxUIValues.minHorizontalMargin,
+                    verticalMargin,
                     verticalMargin);
-                
-                SetTextBoxHorizontalPadding(textBoxUIValues.maxHorizontalMargin + textBoxUIValues.horizontalPadding, 
+
+                SetTextBoxHorizontalPadding(textBoxUIValues.maxHorizontalMargin + textBoxUIValues.horizontalPadding,
                     textBoxUIValues.minHorizontalMargin + textBoxUIValues.horizontalPadding);
-                
+
                 break;
             case CharacterUIData.TextBoxAlignment.center:
-                SetBackgroundSize(textBoxUIValues.centerHorizontalMargin, 
-                    textBoxUIValues.centerHorizontalMargin, 
-                    verticalMargin, 
+                SetBackgroundSize(textBoxUIValues.centerHorizontalMargin,
+                    textBoxUIValues.centerHorizontalMargin,
+                    verticalMargin,
                     verticalMargin);
 
                 var horizontalPadding = textBoxUIValues.centerHorizontalMargin + textBoxUIValues.horizontalPadding;
-                
+
                 SetTextBoxHorizontalPadding(horizontalPadding, horizontalPadding);
                 break;
             default:
@@ -104,26 +104,26 @@ public class DialogueTextBox : MonoBehaviour
         _verticalLayoutGroup.padding.left = left;
         _verticalLayoutGroup.padding.right = right;
     }
-    
+
     public void SetTextBoxVerticalPadding(int value)
     {
         _verticalLayoutGroup.padding.top = value;
         _verticalLayoutGroup.padding.bottom = value;
     }
-    
+
     private void SetBackgroundSize(int left, int right, int top, int bottom)
     {
         _backgroundRectTransform.offsetMin = new Vector2(left, bottom);
         _backgroundRectTransform.offsetMax = new Vector2(-right, -top);
     }
-    
+
     private IEnumerator SetTextBoxVerticalPaddingAfterHeightIsSet(int topBottomPadding, float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
 
         SetTextBoxVerticalPadding(topBottomPadding);
     }
-    
+
     public void InstantiateDialogue(string dialogueText, CharacterUIData.TypeOfTextBox typeOfTextBox, float animationDuration)
     {
         _dialogue = dialogueText;
@@ -162,7 +162,7 @@ public class DialogueTextBox : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(typeOfTextBox), typeOfTextBox, null);
         }
     }
-    
+
     public void ToggleOptionVisibility(bool toggleValue)
     {
         _canvasGroup.alpha = toggleValue ? 1 : 0;
