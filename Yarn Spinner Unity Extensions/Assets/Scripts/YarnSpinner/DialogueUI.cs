@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using YarnSpinnerUnityExtensions;
 
 namespace Yarn.Unity {
-    
+
     /// <summary>
     /// Displays dialogue lines to the player, and sends user choices back
     /// to the dialogue system.
@@ -95,7 +95,7 @@ namespace Yarn.Unity {
 
         // When true, the DialogueRunner is waiting for the user to press
         // one of the option buttons.
-        private bool waitingForOptionSelection = false;     
+        private bool waitingForOptionSelection = false;
 
         /// <summary>
         /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
@@ -116,7 +116,7 @@ namespace Yarn.Unity {
         /// Use this event to disable any dialogue-related UI and gameplay
         /// elements, and enable any non-dialogue UI and gameplay elements.
         /// </remarks>
-        public UnityEngine.Events.UnityEvent onDialogueEnd;  
+        public UnityEngine.Events.UnityEvent onDialogueEnd;
 
         /// <summary>
         /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
@@ -177,7 +177,7 @@ namespace Yarn.Unity {
         /// <seealso cref="textSpeed"/>
         /// <seealso cref="onLineFinishDisplaying"/>
         public DialogueRunner.StringUnityEvent onLineUpdate;
-        
+
         /// <summary>
         /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
         /// when a line has finished displaying, and should be removed from
@@ -196,7 +196,7 @@ namespace Yarn.Unity {
         /// <summary>
         /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
         /// when an <see cref="OptionSet"/> has been displayed to the user.
-        /// 
+        ///
         /// </summary>
         /// <remarks>
         /// Before this method is called, the <see cref="Button"/>s in <see
@@ -210,7 +210,7 @@ namespace Yarn.Unity {
         /// object that they're contained in.
         /// </remarks>
         public UnityEngine.Events.UnityEvent onOptionsStart;
-        
+
         /// <summary>
         /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
         /// when an option has been selected, and the <see
@@ -233,13 +233,13 @@ namespace Yarn.Unity {
         /// </summary>
         /// <remarks>
         /// Use this method to dispatch a command to other parts of your game.
-        /// 
+        ///
         /// This method is only called if the <see cref="Command"/> has not
         /// been handled by a command handler that has been added to the
         /// <see cref="DialogueRunner"/>, or by a method on a <see
         /// cref="MonoBehaviour"/> in the scene with the attribute <see
         /// cref="YarnCommandAttribute"/>.
-        /// 
+        ///
         /// {{|note|}}
         /// When a command is delivered in this way, the <see cref="DialogueRunner"/> will not pause execution. If you want a command to make the DialogueRunner pause execution, see <see cref="DialogueRunner.AddCommandHandler(string,
         /// DialogueRunner.BlockingCommandHandler)"/>.
@@ -249,16 +249,16 @@ namespace Yarn.Unity {
         /// the `<![CDATA[<<]]>` and `<![CDATA[>>]]>` markers.
         /// </remarks>
         /// <seealso cref="DialogueRunner.AddCommandHandler(string,
-        /// DialogueRunner.CommandHandler)"/> 
+        /// DialogueRunner.CommandHandler)"/>
         /// <seealso cref="DialogueRunner.AddCommandHandler(string,
-        /// DialogueRunner.BlockingCommandHandler)"/> 
+        /// DialogueRunner.BlockingCommandHandler)"/>
         /// <seealso cref="YarnCommandAttribute"/>
         public DialogueRunner.StringUnityEvent onCommand;
-        
+
         internal void Awake ()
         {
             _dialogueAfterChoiceDuration = UIOptionsDataScriptableObject.UIOptionsData.dialogueAfterChoiceDuration;
-            
+
             // Start by hiding the container
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(false);
@@ -278,12 +278,12 @@ namespace Yarn.Unity {
             return Dialogue.HandlerExecutionType.PauseExecution;
         }
 
-        /// Show a line of dialogue, gradually        
+        /// Show a line of dialogue, gradually
         private IEnumerator DoRunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, System.Action onComplete) {
             onLineStart?.Invoke();
 
             userRequestedNextLine = false;
-            
+
             // The final text we'll be showing for this line.
             string text = localisationProvider.GetLocalisedTextForLine(line);
 
@@ -362,7 +362,7 @@ namespace Yarn.Unity {
                 var optionDialogue = storyHandler.GenerateOptionForThisNode(optionText);
                 optionDialogue.dialogueButton.onClick.AddListener(() => SelectOption(optionString.ID));
             }
-            
+
             /*foreach (var optionString in optionsCollection.Options) {
                 optionButtons [i].gameObject.SetActive (true);
 
@@ -392,11 +392,11 @@ namespace Yarn.Unity {
 
             onOptionsStart?.Invoke();
 
-            // Wait until the chooser has been used and then removed 
+            // Wait until the chooser has been used and then removed
             while (waitingForOptionSelection) {
                 yield return null;
             }
-            
+
             /*// Hide all the buttons
             foreach (var button in optionButtons) {
                 button.gameObject.SetActive (false);
@@ -427,7 +427,7 @@ namespace Yarn.Unity {
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(true);
 
-            onDialogueStart?.Invoke();            
+            onDialogueStart?.Invoke();
         }
 
         /// Called when the dialogue system has finished running.
@@ -439,7 +439,7 @@ namespace Yarn.Unity {
             // Hide the dialogue interface.
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(false);
-            
+
         }
 
         /// <summary>
@@ -478,16 +478,16 @@ namespace Yarn.Unity {
                 Debug.LogWarning("An option was selected, but the dialogue UI was not expecting it.");
                 return;
             }
-            
+
             storyHandler.DestroyRemainingOptionDialoguesOnSelection(optionID);
 
             StartCoroutine(ShowNextNodeAfterOptionSelection(_dialogueAfterChoiceDuration, optionID));
         }
-        
-        private IEnumerator ShowNextNodeAfterOptionSelection(float duration, int optionID) 
+
+        private IEnumerator ShowNextNodeAfterOptionSelection(float duration, int optionID)
         {
             yield return new WaitForSeconds(duration);
-            
+
             waitingForOptionSelection = false;
             currentOptionSelectionHandler?.Invoke(optionID);
         }

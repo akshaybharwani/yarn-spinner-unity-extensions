@@ -4,6 +4,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YarnSpinnerUnityExtensions;
 
 public class DialogueTextBox : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DialogueTextBox : MonoBehaviour
     private LayoutElement _layoutElement;
     private CanvasGroup _canvasGroup;
 
+    public StoryData ThisStoryData { get; set; }
     public CharacterUIData ThisCharacterUIData { get; private set; }
 
     public float Height { get; private set; }

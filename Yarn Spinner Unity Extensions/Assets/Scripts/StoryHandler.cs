@@ -7,21 +7,25 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 namespace YarnSpinnerUnityExtensions
 {
-    public struct AssetData
+    public struct StoryData
     {
-        public string assetName;
-        public string assetId;
-        public string assetText;
+        public string characterId;
+        public string characterName;
+        public string characterText;
+        public bool hasCommand;
+        public string commandName;
+        public string commandText;
     }
 
     public enum TypeOfMedia
     {
         Image,
-        BackgroundAudioSource,
-        OneShotAudioSource
+        BackgroundAudio,
+        OneShotAudio
     }
 
     public class StoryHandler : MonoBehaviour
@@ -29,6 +33,7 @@ namespace YarnSpinnerUnityExtensions
         [Header("DATA")]
         [SerializeField] private CharacterUIDataScriptableObject characterUIDataScriptableObject = null;
         [SerializeField] private UIOptionsDataScriptableObject UIOptionsDataScriptableObject = null;
+        [SerializeField] private MediaDataScriptableObject mediaDataScriptableObject = null;
 
         [Header("STORY SCENE OBJECTS")]
         [SerializeField] private Transform storyTextParent = null;
@@ -37,11 +42,9 @@ namespace YarnSpinnerUnityExtensions
         [SerializeField] private OptionButtonTextBox optionButtonPrefab = null;
         [SerializeField] private StoryImageBox storyImageBox = null;
 
-        [Header("EXTERNAL ASSETS")]
-        [SerializeField] private string imagesResourcesPath = "Images";
-        [SerializeField] private string audioClipsResourcesPath = "AudioClips";
-
-        private const string MediaIdentifier = "-";
+        [Header("AUDIO SOURCES")]
+        [SerializeField] private AudioSource backgroundAudioSource = null;
+        [SerializeField] private AudioSource oneShotAudioSource = null;
 
         private UIOptionsData _uiOptionsData;
 
@@ -63,46 +66,83 @@ namespace YarnSpinnerUnityExtensions
             _textBoxFadeInDuration = _uiOptionsData.textBoxFadeInDuration;
 
             _rectTransform = tempTextBox.GetComponent<RectTransform>();
+
+            backgroundAudioSource.clip = mediaDataScriptableObject.audioData.backgroundAudioClip;
         }
 
         public void HandleNextNode(string storyText)
         {
-            var assetData = GetAssetData(storyText);
+            var assetData = GetStoryData(storyText);
 
-            if (assetData.assetId == MediaIdentifier)
-            {
-                HandleMedia(assetData);
-            }
-            else
-            {
-                HandleStoryText(assetData);
-            }
+            HandleStoryText(assetData);
         }
 
-        private void HandleMedia(AssetData mediaData)
+        private IEnumerator HandleCommand(StoryData storyData)
         {
-            switch (mediaData.assetName.Trim())
+            yield return new WaitForSeconds(_textBoxFadeInDuration);
+
+            switch (storyData.commandName.Trim())
             {
                 case nameof(TypeOfMedia.Image):
-                    HandleImage(mediaData);
+                    HandleImage(storyData);
+                    break;
+                case nameof(TypeOfMedia.BackgroundAudio):
+                    HandleBackgroundAudioSource(storyData);
+                    break;
+                case nameof(TypeOfMedia.OneShotAudio):
+                    HandleOneShotAudioSource(storyData);
                     break;
             }
         }
 
-        private void HandleImage(AssetData mediaData)
+        private void HandleImage(StoryData mediaData)
         {
-            var sprite = Resources.Load<Sprite>(imagesResourcesPath + "/" + mediaData.assetText.Trim());
+            var sprite = Resources.Load<Sprite>(mediaDataScriptableObject.imagesResourcesPath + "/" + mediaData.commandText.Trim());
             var height = sprite.texture.height;
             var imageBox = Instantiate(storyImageBox, storyTextParent);
             imageBox.InstantiateStoryImageBox(sprite, _textBoxFadeInDuration, height);
         }
 
-        private void HandleStoryText(AssetData storyTextData)
+        private void HandleBackgroundAudioSource(StoryData mediaData)
         {
-            var characterUiData =
-                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyTextData.assetId) - 1];
+            if (mediaData.commandText == "On")
+            {
+                backgroundAudioSource.Play();
+                backgroundAudioSource.DOFade(1, mediaDataScriptableObject.audioData.audioFadeDuration);
+            }
+            else
+            {
+                backgroundAudioSource.DOFade(0, mediaDataScriptableObject.audioData.audioFadeDuration);
+                StartCoroutine(FadeOutAudioSource(backgroundAudioSource, mediaDataScriptableObject.audioData.audioFadeDuration));
+            }
+        }
 
-            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyTextData.assetText);
+        private IEnumerator FadeOutAudioSource(AudioSource audioSource, float timeToWait)
+        {
+            yield return new WaitForSeconds(timeToWait);
+
+            audioSource.Stop();
+        }
+
+        private void HandleOneShotAudioSource(StoryData mediaData)
+        {
+            var audioClip = Resources.Load<AudioClip>(mediaDataScriptableObject.audioClipsResourcesPath + "/" + mediaData.commandText.Trim());
+
+            oneShotAudioSource.PlayOneShot(audioClip);
+            oneShotAudioSource.DOFade(1, mediaDataScriptableObject.audioData.audioFadeDuration);
+        }
+
+        private void HandleStoryText(StoryData storyTextData)
+        {
+            if (storyTextData.hasCommand)
+            {
+                StartCoroutine(HandleCommand(storyTextData));
+            }
+
+            var characterUiData =
+                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyTextData.characterId) - 1];
+
+            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyTextData.characterText);
 
             DialogueTextBox dialogueTextBox;
 
@@ -117,22 +157,44 @@ namespace YarnSpinnerUnityExtensions
                 dialogueTextBox = Instantiate(dialogueTextBoxPrefab, storyTextParent);
             }
 
-            InstantiateTextBoxObject(dialogueTextBox, characterUiData, CharacterUIData.TypeOfTextBox.Dialogue, height, storyTextData.assetText, _textBoxFadeInDuration);
+            InstantiateTextBoxObject(dialogueTextBox, characterUiData, CharacterUIData.TypeOfTextBox.Dialogue, height, storyTextData.characterText, _textBoxFadeInDuration);
         }
 
-        private AssetData GetAssetData(string storyText)
+        private StoryData GetStoryData(string storyText)
         {
             var id = storyText.Substring(0, 1);
 
-            var assetNameIndex = storyText.IndexOf(":", StringComparison.Ordinal);
+            var characterNameIndex = storyText.IndexOf(":", StringComparison.Ordinal);
+            var characterName = storyText.Substring(1,  characterNameIndex - 1);
+            var characterTextIndex = characterNameIndex + 2;
+            var characterText = "";
 
-            var assetName = storyText.Substring(1,  assetNameIndex - 1);
+            var assetStartIndex = storyText.IndexOf("-", StringComparison.Ordinal);
+            var assetNameIndex = storyText.IndexOf("~", StringComparison.Ordinal);
 
-            var assetText = storyText.Substring(assetNameIndex + 2);
+            var storyData = new StoryData();
 
-            var assetData = new AssetData {assetText = assetText, assetId = id, assetName = assetName};
+            if (assetStartIndex != -1)
+            {
+                characterText = storyText.Substring(characterTextIndex, assetStartIndex - characterTextIndex);
 
-            return assetData;
+                var assetName = storyText.Substring(assetStartIndex + 1, assetNameIndex - assetStartIndex - 2);
+                var assetText = storyText.Substring(assetNameIndex + 2);
+
+                storyData.hasCommand = true;
+                storyData.commandName = assetName;
+                storyData.commandText = assetText;
+            }
+            else
+            {
+                characterText = storyText.Substring(characterTextIndex);
+            }
+
+            storyData.characterId = id;
+            storyData.characterName = characterName;
+            storyData.characterText = characterText;
+
+            return storyData;
         }
 
         private float GetHeightOfTempTextBox(CharacterUIData characterUiData, TextBoxUIValues textBoxUiValues, string storyText)
@@ -167,16 +229,18 @@ namespace YarnSpinnerUnityExtensions
 
         public OptionButtonTextBox GenerateOptionForThisNode(string optionText)
         {
-            var storyData = GetAssetData(optionText);
+            var storyData = GetStoryData(optionText);
 
             var characterUiData =
-                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyData.assetId) - 1];
+                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyData.characterId) - 1];
 
-            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyData.assetText);
+            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyData.characterText);
 
             var optionDialogueGameObject = Instantiate(optionButtonPrefab, storyTextParent);
 
-            InstantiateTextBoxObject(optionDialogueGameObject, characterUiData, CharacterUIData.TypeOfTextBox.Option, height, storyData.assetText, _textBoxFadeInDuration);
+            optionDialogueGameObject.ThisStoryData = storyData;
+
+            InstantiateTextBoxObject(optionDialogueGameObject, characterUiData, CharacterUIData.TypeOfTextBox.Option, height, storyData.characterText, _textBoxFadeInDuration);
 
             _optionButtonTextBoxes.Add(optionDialogueGameObject);
 
@@ -186,6 +250,11 @@ namespace YarnSpinnerUnityExtensions
         public void DestroyRemainingOptionDialoguesOnSelection(int chosenOptionId)
         {
             var optionDialogue = _optionButtonTextBoxes[chosenOptionId];
+
+            if (optionDialogue.ThisStoryData.hasCommand)
+            {
+                StartCoroutine(HandleCommand(optionDialogue.ThisStoryData));
+            }
 
             for (var i = 0; i < _optionButtonTextBoxes.Count; i++)
             {

@@ -4,12 +4,12 @@ colorID: 0
 position: -145,-664
 ---
 1Aziz Narrator : The great lake of Oduk lies silent beneath us. A dark mirror where stars are but pin pricks and the reflection of the moon is befogged, as if swallowed by a secret current that does not disturb the placid surface.
-1Aziz Narrator : Azaam potters ahead, the folds of his kurta tied at the waist.
-1Aziz Narrator : The deep waters do not scare him. He knows not the name of the lake. Nor the tale of the army of the iron soldiers of Jumbali, who are drowned in these murky depths and who swallow bits of the sky for their sodden sustenance, letting no light leak their hungry maw.
+1Aziz Narrator : Azaam potters ahead, the folds of his kurta tied at the waist.-Image ~ Background
+1Aziz Narrator : The deep waters do not scare him. He knows not the name of the lake. Nor the tale of the army of the iron soldiers of Jumbali, who are drowned in these murky depths and who swallow bits of the sky for their sodden sustenance, letting no light leak their hungry maw.-BackgroundAudio ~ On
 1Aziz Narrator : But I have seen the story painted endlessly in books and folios about Jumbali, and I can smell the horrors buried in this water.
-1Aziz Narrator : Or perhaps it is just the rank mud and the lichen encrusted pylons that I smell, but I am glad to be perched far above the deep even if only on a precarious bamboo bridge.
+1Aziz Narrator : Or perhaps it is just the rank mud and the lichen encrusted pylons that I smell, but I am glad to be perched far above the deep even if only on a precarious bamboo bridge.-BackgroundAudio ~ Off
 1Aziz Narrator : A bamboo bridge that has begun to rattle with the sound of padded feet,  <i> phup . thup . phup . thup </i> marching towards us in a deliberate rhythm.
-[[1Aziz Narrator : I turn around, seeking shape to the sound.|node1.1]]
+[[1Aziz Narrator : I turn around, seeking shape to the sound.-OneShotAudio ~ ajanta|node1.1]]
 [[1Aziz : Wait Azaam, do you hear that? |node1.2]]
 [[1Aziz : Can you hear those footsteps Azaam? Run!|node1.3]]
 ===
@@ -23,7 +23,6 @@ position: -367,-380
 3Azaam : By the grace of Allah! Look Aziz, they are Astronauts.
 1Narrator Aziz : And surely enough, the people have great domes of glass covering their heads and their bodies are padded with yards of cloth, held in place by strings and wires and tiny brass bells.
 1Narrator Aziz : We stand there staring.
--Image : Background
 1Narrator Aziz : After all it is not everyday you see a troupe of Astronauts.
 1Narrator Aziz : They are walking with a practiced and deliberate gait, but the strange attire makes mock of their solemn movements, and the constant phup . thup of their padded feet sets the bamboo bridge rattling in an odd tempo.
 3Azaam : What are Astronauts doing in BhulaDesh?
