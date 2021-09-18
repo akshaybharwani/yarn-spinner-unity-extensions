@@ -22,7 +22,7 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 4278190258
     optionBackgroundImage: {fileID: 0}
-    fontAsset: {fileID: 11400000, guid: f7def9ad124060c4caef0ea58e51f5b0, type: 2}
+    fontAsset: {fileID: 0}
     fontColor:
       serializedVersion: 2
       rgba: 4285071360
@@ -39,7 +39,7 @@ MonoBehaviour:
     fontAsset: {fileID: 0}
     fontColor:
       serializedVersion: 2
-      rgba: 4278190080
+      rgba: 4294967295
     textBoxAlignment: 0
   - characterID: 3
     dialogueBackgroundColor:
@@ -53,5 +53,5 @@ MonoBehaviour:
     fontAsset: {fileID: 0}
     fontColor:
       serializedVersion: 2
-      rgba: 4278190080
+      rgba: 4294967295
     textBoxAlignment: 2

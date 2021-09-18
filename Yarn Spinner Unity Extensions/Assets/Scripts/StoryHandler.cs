@@ -5,110 +5,155 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace YarnSpinnerUnityExtensions
 {
-    public struct StoryData
+    public struct AssetData
     {
-        public string characterName;
-        public int characterID;
-        public string dialogueText;
+        public string assetName;
+        public string assetId;
+        public string assetText;
     }
+
+    public enum TypeOfMedia
+    {
+        Image,
+        BackgroundAudioSource,
+        OneShotAudioSource
+    }
+
     public class StoryHandler : MonoBehaviour
     {
         [Header("DATA")]
-        [SerializeField] private CharacterUIDataScriptableObject characterUIDataScriptableObject;
-        [SerializeField] private UIOptionsDataScriptableObject UIOptionsDataScriptableObject;
+        [SerializeField] private CharacterUIDataScriptableObject characterUIDataScriptableObject = null;
+        [SerializeField] private UIOptionsDataScriptableObject UIOptionsDataScriptableObject = null;
 
         [Header("STORY SCENE OBJECTS")]
-        [SerializeField] private Transform storyTextParent;
-        [SerializeField] private DialogueTextBox tempTextBox ;
-        [SerializeField] private DialogueTextBox dialogueTextBoxPrefab;
-        [SerializeField] public OptionButtonTextBox optionButtonPrefab;
+        [SerializeField] private Transform storyTextParent = null;
+        [SerializeField] private DialogueTextBox tempTextBox = null;
+        [SerializeField] private DialogueTextBox dialogueTextBoxPrefab = null;
+        [SerializeField] private OptionButtonTextBox optionButtonPrefab = null;
+        [SerializeField] private StoryImageBox storyImageBox = null;
 
-        private UIOptionsData _UIOptionsData;
+        [Header("EXTERNAL ASSETS")]
+        [SerializeField] private string imagesResourcesPath = "Images";
+        [SerializeField] private string audioClipsResourcesPath = "AudioClips";
+
+        private const string MediaIdentifier = "-";
+
+        private UIOptionsData _uiOptionsData;
 
         private float _optionButtonFadeDuration;
         private float _textBoxFadeInDuration;
-        private TextBoxUIValues _textBoxUIValues = new TextBoxUIValues();
+        private TextBoxUIValues _textBoxUiValues = new TextBoxUIValues();
 
-        private RectTransform _rectTransfrom;
-        private ContentSizeFitter _contentSizeFitter;
+        private RectTransform _rectTransform;
 
-        private List<OptionButtonTextBox> optionButtonTextBoxes = new List<OptionButtonTextBox>();
+        private List<OptionButtonTextBox> _optionButtonTextBoxes = new List<OptionButtonTextBox>();
 
         private void Awake()
         {
             // Assign UI Data Options for this Story
-            _UIOptionsData = UIOptionsDataScriptableObject.UIOptionsData;
-            _textBoxUIValues = UIOptionsDataScriptableObject.textBoxUIValues;
+            _uiOptionsData = UIOptionsDataScriptableObject.UIOptionsData;
+            _textBoxUiValues = UIOptionsDataScriptableObject.textBoxUIValues;
 
-            _optionButtonFadeDuration = _UIOptionsData.optionButtonFadeDuration;
-            _textBoxFadeInDuration = _UIOptionsData.textBoxFadeInDuration;
+            _optionButtonFadeDuration = _uiOptionsData.optionButtonFadeDuration;
+            _textBoxFadeInDuration = _uiOptionsData.textBoxFadeInDuration;
 
-            _rectTransfrom = tempTextBox.GetComponent<RectTransform>();
+            _rectTransform = tempTextBox.GetComponent<RectTransform>();
         }
 
-        private StoryData GetStoryDataFromStoryText(string storyText)
+        public void HandleNextNode(string storyText)
         {
-            var characterNameEndIndex = storyText.IndexOf(":", StringComparison.Ordinal);
+            var assetData = GetAssetData(storyText);
 
-            var ID = storyText.Substring(0, 1);
-
-            var characterName = storyText.Substring(1,  characterNameEndIndex - 1);
-
-            var dialogueText = storyText.Substring(characterNameEndIndex + 2);
-
-            var storyData = new StoryData {dialogueText = dialogueText, characterID = int.Parse(ID), characterName = characterName};
-
-            return storyData;
+            if (assetData.assetId == MediaIdentifier)
+            {
+                HandleMedia(assetData);
+            }
+            else
+            {
+                HandleStoryText(assetData);
+            }
         }
 
-        private float GetHeightOfTempTextBox(CharacterUIData characterUIData, TextBoxUIValues textBoxUIValues, string storyText)
+        private void HandleMedia(AssetData mediaData)
         {
-            tempTextBox.AddTextToDialogue(storyText);
-
-            tempTextBox.SetDialogueAlignment(characterUIData.textBoxAlignment, textBoxUIValues);
-
-            var verticalPadding = textBoxUIValues.verticalPadding + textBoxUIValues.interTextBoxSpacingValue;
-
-            tempTextBox.SetTextBoxVerticalPadding(verticalPadding);
-
-            Canvas.ForceUpdateCanvases();
-
-            return _rectTransfrom.rect.height;
+            switch (mediaData.assetName.Trim())
+            {
+                case nameof(TypeOfMedia.Image):
+                    HandleImage(mediaData);
+                    break;
+            }
         }
 
-        public void CreateStoryDialogueForThisText(string storyText)
+        private void HandleImage(AssetData mediaData)
         {
-            var storyData = GetStoryDataFromStoryText(storyText);
+            var sprite = Resources.Load<Sprite>(imagesResourcesPath + "/" + mediaData.assetText.Trim());
+            var height = sprite.texture.height;
+            var imageBox = Instantiate(storyImageBox, storyTextParent);
+            imageBox.InstantiateStoryImageBox(sprite, _textBoxFadeInDuration, height);
+        }
 
-            var characterUIData =
-                characterUIDataScriptableObject.characterUIDatas[storyData.characterID - 1];
+        private void HandleStoryText(AssetData storyTextData)
+        {
+            var characterUiData =
+                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyTextData.assetId) - 1];
 
-            var height = GetHeightOfTempTextBox(characterUIData, _textBoxUIValues, storyData.dialogueText);
+            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyTextData.assetText);
 
             DialogueTextBox dialogueTextBox;
 
-            if (optionButtonTextBoxes.Count > 0)
+            if (_optionButtonTextBoxes.Count > 0)
             {
-                dialogueTextBox = optionButtonTextBoxes[0];
+                dialogueTextBox = _optionButtonTextBoxes[0];
 
-                optionButtonTextBoxes.RemoveAt(0);
+                _optionButtonTextBoxes.RemoveAt(0);
             }
             else
             {
                 dialogueTextBox = Instantiate(dialogueTextBoxPrefab, storyTextParent);
             }
 
-            InstantiateTextBoxObject(dialogueTextBox, characterUIData, CharacterUIData.TypeOfTextBox.Dialogue, height, storyData.dialogueText, _textBoxFadeInDuration);
+            InstantiateTextBoxObject(dialogueTextBox, characterUiData, CharacterUIData.TypeOfTextBox.Dialogue, height, storyTextData.assetText, _textBoxFadeInDuration);
         }
 
-        private void InstantiateTextBoxObject(DialogueTextBox prefab, CharacterUIData characterUIData, CharacterUIData.TypeOfTextBox typeOfTextBox,
+        private AssetData GetAssetData(string storyText)
+        {
+            var id = storyText.Substring(0, 1);
+
+            var assetNameIndex = storyText.IndexOf(":", StringComparison.Ordinal);
+
+            var assetName = storyText.Substring(1,  assetNameIndex - 1);
+
+            var assetText = storyText.Substring(assetNameIndex + 2);
+
+            var assetData = new AssetData {assetText = assetText, assetId = id, assetName = assetName};
+
+            return assetData;
+        }
+
+        private float GetHeightOfTempTextBox(CharacterUIData characterUiData, TextBoxUIValues textBoxUiValues, string storyText)
+        {
+            tempTextBox.AddTextToDialogue(storyText);
+
+            tempTextBox.SetDialogueAlignment(characterUiData.textBoxAlignment, textBoxUiValues);
+
+            var verticalPadding = textBoxUiValues.verticalPadding + textBoxUiValues.interTextBoxSpacingValue;
+
+            tempTextBox.SetTextBoxVerticalPadding(verticalPadding);
+
+            Canvas.ForceUpdateCanvases();
+
+            return _rectTransform.rect.height;
+        }
+
+        private void InstantiateTextBoxObject(DialogueTextBox prefab, CharacterUIData characterUiData, CharacterUIData.TypeOfTextBox typeOfTextBox,
             float height, string storyText, float animationDuration)
         {
-            prefab.SetDialogueUI(characterUIData, _textBoxUIValues, height, animationDuration);
+            prefab.SetDialogueUI(characterUiData, _textBoxUiValues, height, animationDuration);
 
             StartCoroutine(SetTextBoxText(prefab, typeOfTextBox, storyText, animationDuration));
         }
@@ -122,42 +167,42 @@ namespace YarnSpinnerUnityExtensions
 
         public OptionButtonTextBox GenerateOptionForThisNode(string optionText)
         {
-            var storyData = GetStoryDataFromStoryText(optionText);
+            var storyData = GetAssetData(optionText);
 
-            var characterUIData =
-                characterUIDataScriptableObject.characterUIDatas[storyData.characterID - 1];
+            var characterUiData =
+                characterUIDataScriptableObject.characterUIDatas[int.Parse(storyData.assetId) - 1];
 
-            var height = GetHeightOfTempTextBox(characterUIData, _textBoxUIValues, storyData.dialogueText);
+            var height = GetHeightOfTempTextBox(characterUiData, _textBoxUiValues, storyData.assetText);
 
             var optionDialogueGameObject = Instantiate(optionButtonPrefab, storyTextParent);
 
-            InstantiateTextBoxObject(optionDialogueGameObject, characterUIData, CharacterUIData.TypeOfTextBox.Option, height, storyData.dialogueText, _textBoxFadeInDuration);
+            InstantiateTextBoxObject(optionDialogueGameObject, characterUiData, CharacterUIData.TypeOfTextBox.Option, height, storyData.assetText, _textBoxFadeInDuration);
 
-            optionButtonTextBoxes.Add(optionDialogueGameObject);
+            _optionButtonTextBoxes.Add(optionDialogueGameObject);
 
             return optionDialogueGameObject;
         }
 
-        public void DestroyRemainingOptionDialoguesOnSelection(int chosenOptionID)
+        public void DestroyRemainingOptionDialoguesOnSelection(int chosenOptionId)
         {
-            var optionDialogue = optionButtonTextBoxes[chosenOptionID];
+            var optionDialogue = _optionButtonTextBoxes[chosenOptionId];
 
-            for (var i = 0; i < optionButtonTextBoxes.Count; i++)
+            for (var i = 0; i < _optionButtonTextBoxes.Count; i++)
             {
-                optionButtonTextBoxes[i].ToggleOptionVisibility(false);
-                optionButtonTextBoxes[i].ClearText();
-                optionButtonTextBoxes[i].dialogueButton.interactable = false;
+                _optionButtonTextBoxes[i].ToggleOptionVisibility(false);
+                _optionButtonTextBoxes[i].ClearText();
+                _optionButtonTextBoxes[i].dialogueButton.interactable = false;
 
                 if (i == 0)
                 {
-                    var height = GetHeightOfTempTextBox(optionDialogue.ThisCharacterUIData, _textBoxUIValues, optionDialogue.Dialogue);
+                    var height = GetHeightOfTempTextBox(optionDialogue.ThisCharacterUIData, _textBoxUiValues, optionDialogue.Dialogue);
 
-                    InstantiateTextBoxObject(optionButtonTextBoxes[i], optionDialogue.ThisCharacterUIData, CharacterUIData.TypeOfTextBox.Dialogue, height, optionDialogue.Dialogue, _optionButtonFadeDuration);
+                    InstantiateTextBoxObject(_optionButtonTextBoxes[i], optionDialogue.ThisCharacterUIData, CharacterUIData.TypeOfTextBox.Dialogue, height, optionDialogue.Dialogue, _optionButtonFadeDuration);
                 }
             }
 
             // Remove the first Option Dialogue as it's already been used for the selection
-            optionButtonTextBoxes.RemoveAt(0);
+            _optionButtonTextBoxes.RemoveAt(0);
         }
     }
 }
