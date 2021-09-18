@@ -15,5 +15,5 @@ MonoBehaviour:
   imagesResourcesPath: Images
   audioClipsResourcesPath: AudioClips
   audioData:
-    backgroundAudioClip: {fileID: 8300000, guid: eb2c4626be479d14b85934c9e3229aab, type: 3}
+    backgroundAudioClip: {fileID: 0}
     audioFadeDuration: 1

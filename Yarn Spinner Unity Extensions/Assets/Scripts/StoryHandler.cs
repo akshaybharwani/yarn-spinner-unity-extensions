@@ -21,15 +21,19 @@ namespace YarnSpinnerUnityExtensions
         public string commandText;
     }
 
-    public enum TypeOfMedia
+    public enum TypeOfCommand
     {
         Image,
         BackgroundAudio,
-        OneShotAudio
+        OneShotAudio,
+        End
     }
 
     public class StoryHandler : MonoBehaviour
     {
+        [Header("YARN SPINNER")] [SerializeField]
+        private DialogueUI dialogueUI = null;
+
         [Header("DATA")]
         [SerializeField] private CharacterUIDataScriptableObject characterUIDataScriptableObject = null;
         [SerializeField] private UIOptionsDataScriptableObject UIOptionsDataScriptableObject = null;
@@ -67,7 +71,8 @@ namespace YarnSpinnerUnityExtensions
 
             _rectTransform = tempTextBox.GetComponent<RectTransform>();
 
-            backgroundAudioSource.clip = mediaDataScriptableObject.audioData.backgroundAudioClip;
+            if (mediaDataScriptableObject.audioData.backgroundAudioClip)
+                backgroundAudioSource.clip = mediaDataScriptableObject.audioData.backgroundAudioClip;
         }
 
         public void HandleNextNode(string storyText)
@@ -83,24 +88,38 @@ namespace YarnSpinnerUnityExtensions
 
             switch (storyData.commandName.Trim())
             {
-                case nameof(TypeOfMedia.Image):
+                case nameof(TypeOfCommand.Image):
                     HandleImage(storyData);
                     break;
-                case nameof(TypeOfMedia.BackgroundAudio):
+                case nameof(TypeOfCommand.BackgroundAudio):
                     HandleBackgroundAudioSource(storyData);
                     break;
-                case nameof(TypeOfMedia.OneShotAudio):
+                case nameof(TypeOfCommand.OneShotAudio):
                     HandleOneShotAudioSource(storyData);
                     break;
+                case nameof(TypeOfCommand.End):
+                    StartCoroutine(HandleEnd());
+                    break;
             }
+        }
+
+        private IEnumerator HandleEnd()
+        {
+            yield return new WaitForSeconds(_textBoxFadeInDuration * 2);
+
+            dialogueUI.DialogueComplete();
         }
 
         private void HandleImage(StoryData mediaData)
         {
             var sprite = Resources.Load<Sprite>(mediaDataScriptableObject.imagesResourcesPath + "/" + mediaData.commandText.Trim());
-            var height = sprite.texture.height;
-            var imageBox = Instantiate(storyImageBox, storyTextParent);
-            imageBox.InstantiateStoryImageBox(sprite, _textBoxFadeInDuration, height);
+
+            if (sprite)
+            {
+                var height = sprite.texture.height;
+                var imageBox = Instantiate(storyImageBox, storyTextParent);
+                imageBox.InstantiateStoryImageBox(sprite, _textBoxFadeInDuration, height);
+            }
         }
 
         private void HandleBackgroundAudioSource(StoryData mediaData)
@@ -128,8 +147,11 @@ namespace YarnSpinnerUnityExtensions
         {
             var audioClip = Resources.Load<AudioClip>(mediaDataScriptableObject.audioClipsResourcesPath + "/" + mediaData.commandText.Trim());
 
-            oneShotAudioSource.PlayOneShot(audioClip);
-            oneShotAudioSource.DOFade(1, mediaDataScriptableObject.audioData.audioFadeDuration);
+            if (audioClip)
+            {
+                oneShotAudioSource.PlayOneShot(audioClip);
+                oneShotAudioSource.DOFade(1, mediaDataScriptableObject.audioData.audioFadeDuration);
+            }
         }
 
         private void HandleStoryText(StoryData storyTextData)
@@ -178,8 +200,18 @@ namespace YarnSpinnerUnityExtensions
             {
                 characterText = storyText.Substring(characterTextIndex, assetStartIndex - characterTextIndex);
 
-                var assetName = storyText.Substring(assetStartIndex + 1, assetNameIndex - assetStartIndex - 2);
-                var assetText = storyText.Substring(assetNameIndex + 2);
+                var assetName = "";
+                var assetText = "";
+
+                if (assetNameIndex != -1)
+                {
+                    assetName = storyText.Substring(assetStartIndex + 1, assetNameIndex - assetStartIndex - 2);
+                    assetText = storyText.Substring(assetNameIndex + 2);
+                }
+                else
+                {
+                    assetName = storyText.Substring(assetStartIndex + 1);
+                }
 
                 storyData.hasCommand = true;
                 storyData.commandName = assetName;

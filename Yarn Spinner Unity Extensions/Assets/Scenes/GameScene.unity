@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yarnScripts:
-  - {fileID: 2480198943629176163, guid: 65bf6240e885d6744b27298f1f05295f, type: 3}
+  - {fileID: 0}
   textLanguage: 
   variableStorage: {fileID: 921706724}
   dialogueUI: {fileID: 921706725}
@@ -1491,6 +1491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8815e2d0fcad4394f9fc78648ced09fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueUI: {fileID: 921706725}
   characterUIDataScriptableObject: {fileID: 11400000, guid: dd8c73c3d1c75d14b955e6485fc7ac94, type: 2}
   UIOptionsDataScriptableObject: {fileID: 11400000, guid: db8a43eb72c58094d82a6726e5f10cb2, type: 2}
   mediaDataScriptableObject: {fileID: 11400000, guid: 7234289785e1e4243bc9a1c88504b542, type: 2}
